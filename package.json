@@ -1,0 +1,30 @@
+{
+  "name": "mysql_curd",
+  "version": "1.0.0",
+  "description": "nodejs crud application with mySQL database",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node index"
+  },
+  "keywords": [
+    "nodejs",
+    "mongo",
+    "CRUD",
+    "SWAGGER"
+  ],
+  "author": "vaibhav",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-actuator": "^1.8.4",
+    "mongoose": "^8.0.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "swagger-autogen": "^2.23.7"
+  }
+}
