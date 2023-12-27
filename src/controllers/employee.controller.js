@@ -2,8 +2,8 @@
 const Employee = require('../models/employee.model');
 exports.findAll = async(req, res) => {
   try {
-    const employee = await Employee.find({});
-    res.send({ employee })
+    const employees = await Employee.find({});
+    res.send({ employees })
   } catch(err) {
     res.status(400).send({ error: err });
   }
@@ -43,15 +43,17 @@ exports.update = async(req, res) => {
 };
 exports.delete = async(req, res) => {
   try {
-    const removeStudent = await Students.findByIdAndRemove(req.params.id);
+    console.log("id ===", req.params.id)
+    const removeStudent = await Employee.deleteOne({_id: req.params.id});
      res.send({ message: 'The student was removed' });
   } catch(err) {
+    console.log("err ===", err)
     res.status(400).send({ error: err });
-  };
+  }
 };
 exports.search = async(req, res) => {
   try {
-    const employee = await Employee.find({
+    const employees = await Employee.find({
       $or: [
         {
           first_name: {
@@ -60,7 +62,7 @@ exports.search = async(req, res) => {
         }
       ]
     });
-    res.send({ employee });
+    res.send({ employees });
   } catch (err) {
     res.status(404).send({ message: 'Employee not found!' });
   }

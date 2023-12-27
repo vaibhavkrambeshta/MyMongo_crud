@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mynode-app
+  labels:
+    name: mynode-app
+spec:
+  containers:
+  - name: mynode-app-con
+    image: vforvalient/mymongo-crud:0.0.1.RELEASE
+    ports:
+    - containerPort: 5000
