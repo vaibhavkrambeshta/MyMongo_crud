@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 const actuator = require('express-actuator');
+const cors = require('cors')
 require('./config/db.config');
 // create express app
 const app = express();
@@ -13,7 +14,18 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 //monitor and manage application
-app.use(actuator());
+const actuatorConfig = {
+  info: {
+    gitInfo: "nodejs crud application with mongodb database"
+  },
+  health: {
+    description: "App is running at 5000"
+  }
+};
+app.use(actuator(actuatorConfig));
+//allow cors
+
+app.use(cors())
 //swagger options
 const swaggerOptions = {
   definition: {

@@ -20,7 +20,7 @@ class AddEmployee extends Component {
   addEmployee = async e => {
     e.preventDefault();
     try {
-      const newEmployee = await axios.post("/api/v1/employees", {
+      const newEmployee = await axios.post("http://localhost:5000/proxy/api/v1/employees", {
           first_name: this.refs.first_name.value,
           last_name: this.refs.last_name.value,
           email: this.refs.email.value,

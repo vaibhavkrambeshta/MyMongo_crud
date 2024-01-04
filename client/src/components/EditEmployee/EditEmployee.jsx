@@ -23,7 +23,7 @@ class EditEmployee extends Component {
     try {
     let search =  this.props.location.search,
       id = search.substring(1, search.length);
-    const updateEmployee = await axios(`/api/v1/employees/${id}`);
+    const updateEmployee = await axios(`http://localhost:5000/proxy/api/v1/employees/${id}`);
     const { _id, first_name, last_name, email, phone, organization, designation, salary } = updateEmployee.data.employee;
     this.setState({ id, first_name, last_name, email, phone, organization, designation, salary });
     } catch (err) {
@@ -34,7 +34,7 @@ class EditEmployee extends Component {
   updateEmployeeHandler = async (e) => {
     e.preventDefault();
     try {
-      const employee = await axios.put(`/api/v1/employees/${this.state.id}`, {
+      const employee = await axios.put(`http://localhost:5000/proxy/api/v1/employees/${this.state.id}`, {
         first_name: this.refs.first_name.value,
         last_name: this.refs.last_name.value,
         email: this.refs.email.value,

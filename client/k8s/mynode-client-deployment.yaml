@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mynode-client-deployment
+  labels:
+    name: mynode-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mynode-client
+  template:
+    metadata:
+      labels:
+        name: mynode-client
+    spec:
+      containers:
+      - name: mynode-client-con
+        image: vforvalient/my-mongo-crud-client
+        ports:
+        - containerPort: 3000

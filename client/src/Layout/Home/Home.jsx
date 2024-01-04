@@ -15,7 +15,7 @@ class Home extends Component {
 
   async componentDidMount() {
     try {
-      const employees = await axios("/api/v1/employees");
+      const employees = await axios("http://localhost:5000/proxy/api/v1/employees");
       console.log("employees===", employees)
       this.setState({ data: employees.data });
     } catch (err) {
@@ -25,8 +25,8 @@ class Home extends Component {
 
   removeEmployee = async id => {
     try {
-      const employeeRemoved = await axios.delete(`/api/v1/employees/${id}`);
-      const employees = await axios("/api/v1/employees");
+      const employeeRemoved = await axios.delete(`http://localhost:5000/proxy/api/v1/employees/${id}`);
+      const employees = await axios("http://localhost:5000/proxy/api/v1/employees");
       this.setState({ data: employees.data });
     } catch (err) {
       this.setState({ error: err.message });
@@ -35,7 +35,7 @@ class Home extends Component {
 
   searchEmployees = async key => {
     try {
-        const searchEmployees = await axios(`/api/v1/employees/search/${key}`);
+        const searchEmployees = await axios(`http://localhost:5000/proxy/api/v1/employees/search/${key}`);
         // const employees = await axios("/api/v1/employees");
         this.setState({ data: searchEmployees.data });
       } catch (err) {

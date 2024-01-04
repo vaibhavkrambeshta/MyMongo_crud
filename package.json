@@ -1,7 +1,7 @@
 {
   "name": "mysql_curd",
   "version": "1.0.0",
-  "description": "nodejs crud application with mySQL database",
+  "description": "nodejs crud application with mongodb database",
   "main": "index.js",
   "scripts": {
     "test": "npm test",
