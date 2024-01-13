@@ -7,8 +7,10 @@ const cors = require('cors')
 require('./config/db.config');
 // create express app
 const app = express();
+
+
 // Setup server port
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 // parse requests of content-type - application/json
@@ -53,6 +55,10 @@ app.use("/api-docs/", swaggerUi.serve, swaggerUi.setup(swaggerSpec, options))
 app.get('/', (req, res) => {
   res.send("Hello World");
 });
+
+//configuring keycloak
+// const keycloak = require('./config/keycloak.config.js').initKeycloak();
+// app.use(keycloak.middleware());
 // Require employee routes
 const employeeRoutes = require('./src/routes/employee.routes')
 // using as middleware

@@ -3,32 +3,72 @@ import './AddEmployee.css';
 import axios from "axios";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { globalStateContext } from "./../../Routes/Routes";
+import { useContext, useState, useEffect, useRef } from "react";
 
-class AddEmployee extends Component {
-  state = {
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
-    organization: "",
-    designation: "",
-    salary: ""
-  };
 
-  onChangeHandler = e => this.setState({ [e.target.name]: e.target.value });
+const AddEmployee =  () => {
+  // state = {
+  //   first_name: "",
+  //   last_name: "",
+  //   email: "",
+  //   phone: "",
+  //   organization: "",
+  //   designation: "",
+  //   salary: ""
+  // };
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [organization, setOrganization] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [salary, setSalary] = useState("");
+  const tokenData = useRef(useContext(globalStateContext));
 
-  addEmployee = async e => {
+  // const onChangeHandler = e => this.setState({ [e.target.name]: e.target.value });
+  const onFirstNameChange = (e) => {
+    setFirstName(e.target.value)
+  }
+  const onLastNameChange = (e) => {
+    setLastName(e.target.value)
+  }
+  const onEmailChange = (e) => {
+    setEmail(e.target.value)
+  }
+  const onPhoneChange = (e) => {
+    setPhone(e.target.value)
+  }
+  const onOrganizationChange = (e) => {
+    setOrganization(e.target.value)
+  }
+  const onDesignationChange = (e) => {
+    setDesignation(e.target.value)
+  }
+  const onSalaryChange = (e) => {
+    setSalary(e.target.value)
+  }
+  
+
+  const addEmployee = async e => {
     e.preventDefault();
+    const config = {
+      headers: {
+        authorization: `Bearer ${tokenData.current.token}`,
+      },
+    };
     try {
       const newEmployee = await axios.post("http://localhost:5000/proxy/api/v1/employees", {
-          first_name: this.refs.first_name.value,
-          last_name: this.refs.last_name.value,
-          email: this.refs.email.value,
-          phone: this.refs.phone.value,
-          organization: this.refs.organization.value,
-          designation: this.refs.designation.value,
-          salary: this.refs.salary.value
-        }
+        // const newEmployee = await axios.post("http://localhost:5001/api/v1/employees", {
+          first_name: first_name,
+          last_name: last_name,
+          email: email,
+          phone: phone,
+          organization: organization,
+          designation: designation,
+          salary: salary
+        },
+        config
       );
 
       toast("Employee " + newEmployee.data.newEmployee.first_name + " created successfully" ,{ type: toast.TYPE.SUCCESS, autoClose: 3000 });
@@ -36,19 +76,17 @@ class AddEmployee extends Component {
       toast(err.message ,{ type: toast.TYPE.ERROR, autoClose: 3000 });
     }
   };
-
-  render() {
     return (
       <div className="AddEmployee-Wrapper">
         <h1>Add Employee:</h1>
-        <form onSubmit={this.addEmployee}>
+        <form onSubmit={addEmployee}>
           <label htmlFor="firstName">First Name:</label>
           <input
             type="text"
             placeholder="Enter the first name of the employees here"
             name="firstName"
-            onChange={this.onChangeHandler}
-            ref="first_name"
+            onChange={onFirstNameChange}
+            // ref="first_name"
             className="Add-Employee-Input"
             required
             id="firstname"
@@ -58,8 +96,8 @@ class AddEmployee extends Component {
             type="text"
             placeholder="Enter the last name of the employees here"
             name="lastName"
-            onChange={this.onChangeHandler}
-            ref="last_name"
+            onChange={onLastNameChange}
+            // ref="last_name"
             className="Add-Employee-Input"
             required
             id="lastName"
@@ -69,8 +107,8 @@ class AddEmployee extends Component {
             type="text"
             placeholder="enter your email here"
             name="email"
-            onChange={this.onChangeHandler}
-            ref="email"
+            onChange={onEmailChange}
+            // ref="email"
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
             className="Add-Employee-Input"
             required
@@ -80,8 +118,8 @@ class AddEmployee extends Component {
           <input
             type="text"
             name="phone"
-            onChange={this.onChangeHandler}
-            ref="phone"
+            onChange={onPhoneChange}
+            // ref="phone"
             className="Add-Employee-Input"
             required
             id="phone"
@@ -90,8 +128,8 @@ class AddEmployee extends Component {
           <input
             type="text"
             name="organization"
-            onChange={this.onChangeHandler}
-            ref="organization"
+            onChange={onOrganizationChange}
+            // ref="organization"
             className="Add-Employee-Input"
             required
             id="organization"
@@ -100,8 +138,8 @@ class AddEmployee extends Component {
           <input
             type="text"
             name="designation"
-            onChange={this.onChangeHandler}
-            ref="designation"
+            onChange={onDesignationChange}
+            // ref="designation"
             className="Add-Employee-Input"
             required
             id="designation"
@@ -110,8 +148,8 @@ class AddEmployee extends Component {
           <input
             type="text"
             name="salary"
-            onChange={this.onChangeHandler}
-            ref="salary"
+            onChange={onSalaryChange}
+            // ref="salary"
             className="Add-Employee-Input"
             required
             id="salary"
@@ -123,6 +161,5 @@ class AddEmployee extends Component {
       </div>
     );
   }
-}
 
 export default AddEmployee;

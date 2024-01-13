@@ -5,65 +5,104 @@ import { PropagateLoader } from 'react-spinners';
 // Components
 import Employee from "../../components/Employee/Employee";
 import SearchEmployees from "../../components/SearchEmployees/SearchEmployees";
+import { useContext, useState, useEffect, useRef } from "react";
+import { globalStateContext } from "./../../Routes/Routes";
 
-class Home extends Component {
-  state = {
-    data: null,
-    allEmployees: null,
-    error: ""
-  };
 
-  async componentDidMount() {
+const  Home =  () => {
+  // state = {
+  //   data: null,
+  //   allEmployees: null,
+  //   error: ""
+  // };
+  const[data, setData] = useState(null);
+  const [error, setError] = useState(null)
+  const tokenData = useRef(useContext(globalStateContext));
+  // console.log('token===', tokenData);
+  
+
+  // async componentDidMount() {
+  //   try {
+  //     // const employees = await axios("http://localhost:5001/proxy/api/v1/employees");
+  //     const employees = await axios("http://localhost:5001/api/v1/employees");
+  //     console.log("employees===", employees)
+  //     this.setState({ data: employees.data });
+  //   } catch (err) {
+  //     this.setState({ error: err.message });
+  //   }
+  // }
+  useEffect(() => {
+    setTimeout(async() => {
+      console.log("tokenData===", tokenData)
+    const config = {
+      headers: {
+        authorization: `Bearer ${tokenData.current.token}`,
+      },
+    };
     try {
-      const employees = await axios("http://localhost:5000/proxy/api/v1/employees");
+      const employees = await axios("http://localhost:5000/proxy/api/v1/employees", config);
+      // const employees = await axios("http://localhost:5001/api/v1/employees", config);
       console.log("employees===", employees)
-      this.setState({ data: employees.data });
+      setData(employees.data)
     } catch (err) {
-      this.setState({ error: err.message });
+      setError(err.message)
     }
-  }
+    }, 2000);
+  }, [])
 
-  removeEmployee = async id => {
+  const removeEmployee = async id => {
+    const config = {
+      headers: {
+        authorization: `Bearer ${tokenData.current.token}`,
+      },
+    };
     try {
-      const employeeRemoved = await axios.delete(`http://localhost:5000/proxy/api/v1/employees/${id}`);
-      const employees = await axios("http://localhost:5000/proxy/api/v1/employees");
-      this.setState({ data: employees.data });
+      const employeeRemoved = await axios.delete(`http://localhost:5000/proxy/api/v1/employees/${id}`, config);
+      // const employeeRemoved = await axios.delete(`http://localhost:5001/api/v1/employees/${id}`, config);
+      const employees = await axios("http://localhost:5000/proxy/api/v1/employees", config);
+      // const employees = await axios("http://localhost:5001/api/v1/employees", config);
+      setData(employees);
     } catch (err) {
-      this.setState({ error: err.message });
+      setError(err.message);
     }
   };
 
-  searchEmployees = async key => {
+  const searchEmployees = async key => {
+    const config = {
+      headers: {
+        authorization: `Bearer ${tokenData.current.token}`,
+      },
+    };
     try {
-        const searchEmployees = await axios(`http://localhost:5000/proxy/api/v1/employees/search/${key}`);
+        const searchEmployees = await axios(`http://localhost:5000/proxy/api/v1/employees/search/${key}`, config);
+        // const searchEmployees = await axios(`http://localhost:5001/api/v1/employees/search/${key}`, config);
         // const employees = await axios("/api/v1/employees");
-        this.setState({ data: searchEmployees.data });
+        setData(searchEmployees.data);
       } catch (err) {
-        this.setState({ error: err.message });
+        setError(err.message);
       }
   };
-
-  render() {
+    // console.log(this.props);
     let employees;
 
-    if (this.state.data)
+    if (data)
       employees =
-        this.state.data.employees &&
-        this.state.data.employees.map(employee => (
-          <Employee key={employee._id} {...employee} removeEmployee={this.removeEmployee} />
+        data.employees &&
+        data.employees.map(employee => (
+          <Employee key={employee._id} {...employee} removeEmployee={removeEmployee} />
         ));
     else return <div className="Spinner-Wrapper"> <PropagateLoader color={'#333'} /> </div>;
 
-    if (this.state.error) return <h1>{this.state.error}</h1>;
-    if (this.state.data !== null)
-      if (!this.state.data.employees.length)
+    if (error) return <h1>{error}</h1>;
+    if (data !== null)
+      if (!data.employees.length)
         return <h1 className="No-Employees">No employees!</h1>;
 
     return (
 
       <div className="Table-Wrapper">
         <h1>Employees:</h1>
-        <SearchEmployees searchEmployees={this.searchEmployees} />
+        <SearchEmployees searchEmployees={searchEmployees} />
         <table className="Table">
           <thead>
             <tr>
@@ -78,9 +117,9 @@ class Home extends Component {
           </thead>
           <tbody>{employees}</tbody>
         </table>
+        {/* {this.props} */}
       </div>
     );
   }
-}
 
 export default Home;

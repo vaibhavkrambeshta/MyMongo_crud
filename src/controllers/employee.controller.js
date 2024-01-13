@@ -1,7 +1,9 @@
 'use strict';
 const Employee = require('../models/employee.model');
+require('dotenv').config()
 exports.findAll = async(req, res) => {
   try {
+    console.log(req.user);
     const employees = await Employee.find({});
     res.send({ employees })
   } catch(err) {
@@ -10,23 +12,33 @@ exports.findAll = async(req, res) => {
 };
 exports.create = async(req, res) => {
   try {
-    console.log(req.body);
-    const newEmployee = await Employee.create({ 
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      email: req.body.email,
-      phone: req.body.phone,
-      organization: req.body.organization,
-      designation: req.body.designation,
-      salary: req.body.salary
-     });
-     res.send({ newEmployee });
+    if(req.user === process.env.USER){
+      res 
+      .status(403) 
+      .send( 
+        `<h1 style='color:green;text-align:center;'>500<h1/><br />
+          <pre style='text-align:center;'> 
+              Forbidden!<pre/>`
+      ); 
+    }else{
+      const newEmployee = await Employee.create({ 
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        phone: req.body.phone,
+        organization: req.body.organization,
+        designation: req.body.designation,
+        salary: req.body.salary
+       });
+       res.send({ newEmployee });
+    }
   } catch(err) {
     res.status(400).send({ error: err });
   }
 };
 exports.findById = async(req, res) => {
   try {
+    
     const employee = await Employee.findById(req.params.id);
     res.send({ employee });
   } catch (err) {
@@ -35,17 +47,37 @@ exports.findById = async(req, res) => {
 };
 exports.update = async(req, res) => {
   try {
+    if(req.user === process.env.USER){
+      res 
+      .status(403) 
+      .send( 
+        `<h1 style='color:green;text-align:center;'>500<h1/><br />
+          <pre style='text-align:center;'> 
+              Forbidden!<pre/>`
+      ); 
+    }else {
     const updatedEmployee = await Employee.findByIdAndUpdate(req.params.id, req.body);
      res.send({ message: 'The employee was updated' });
+    }
   } catch(err) {
     res.status(400).send({ error: err });
   }
 };
 exports.delete = async(req, res) => {
   try {
+    if(req.user === process.env.USER){
+      res 
+      .status(403) 
+      .send( 
+        `<h1 style='color:green;text-align:center;'>500<h1/><br />
+          <pre style='text-align:center;'> 
+              Forbidden!<pre/>`
+      ); 
+    } else{
     console.log("id ===", req.params.id)
     const removeStudent = await Employee.deleteOne({_id: req.params.id});
      res.send({ message: 'The student was removed' });
+    }
   } catch(err) {
     console.log("err ===", err)
     res.status(400).send({ error: err });

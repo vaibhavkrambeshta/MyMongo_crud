@@ -3,46 +3,95 @@ import './EditEmployee.css';
 import axios from "axios";
 import { withRouter } from 'react-router'
 import {toast, ToastContainer} from "react-toastify";
+import { globalStateContext } from "./../../Routes/Routes";
+import { useContext, useState, useEffect, useRef } from "react";
+import { useParams } from 'react-router-dom';
 
-class EditEmployee extends Component {
-  state = {
-    id: '',
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
-    organization: "",
-    designation: "",
-    salary: "",
-    response: ""
-  };
+const EditEmployee = (props) => {
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [organization, setOrganization] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [salary, setSalary] = useState("");
+  const [response, setResponse] = useState("");
+  const [id, setId] = useState("")
+  const [queryParam, setQueryParam] = useState(props.location.search)
+  const tokenData = useRef(useContext(globalStateContext));
 
-  onChangeHandler = e => this.setState({ [e.target.name]: e.target.value });
+  const onFirstNameChange = (e) => {
+    setFirstName(e.target.value)
+  }
+  const onLastNameChange = (e) => {
+    setLastName(e.target.value)
+  }
+  const onEmailChange = (e) => {
+    setEmail(e.target.value)
+  }
+  const onPhoneChange = (e) => {
+    setPhone(e.target.value)
+  }
+  const onOrganizationChange = (e) => {
+    setOrganization(e.target.value)
+  }
+  const onDesignationChange = (e) => {
+    setDesignation(e.target.value)
+  }
+  const onSalaryChange = (e) => {
+    setSalary(e.target.value)
+  }
 
-  async componentDidMount() {
-    try {
-    let search =  this.props.location.search,
-      id = search.substring(1, search.length);
-    const updateEmployee = await axios(`http://localhost:5000/proxy/api/v1/employees/${id}`);
-    const { _id, first_name, last_name, email, phone, organization, designation, salary } = updateEmployee.data.employee;
-    this.setState({ id, first_name, last_name, email, phone, organization, designation, salary });
-    } catch (err) {
-      this.setState({ response: "Employee not found!" })
-    }
-  };
+    useEffect(() => {
+    setTimeout(async() => {
+      const config = {
+        headers: {
+          authorization: `Bearer ${tokenData.current.token}`,
+        },
+      };
+      try {
+        // const params = useParams();
+        let search =  props.location.search;
+        console.log("search =", search);
+        const id = search.substring(1, search.length);
+          
+        const updateEmployee = await axios(`http://localhost:5000/proxy/api/v1/employees/${id}`, config);
+        // const updateEmployee = await axios(`http://localhost:5001/api/v1/employees/${id}`, config);
+        const { _id, first_name, last_name, email, phone, organization, designation, salary } = updateEmployee.data.employee;
+        setFirstName(first_name);
+        setLastName(last_name);
+        setEmail(email);
+        setPhone(phone);
+        setOrganization(organization);
+        setDesignation(designation);
+        setSalary(salary);
+        setId(_id)
+        
+        } catch (err) {
+          setResponse("Employee not found!")
+        }
+    }, 0);
+  }, [])
 
-  updateEmployeeHandler = async (e) => {
+  const updateEmployeeHandler = async (e) => {
+    const config = {
+      headers: {
+        authorization: `Bearer ${tokenData.current.token}`,
+      },
+    };
     e.preventDefault();
     try {
-      const employee = await axios.put(`http://localhost:5000/proxy/api/v1/employees/${this.state.id}`, {
-        first_name: this.refs.first_name.value,
-        last_name: this.refs.last_name.value,
-        email: this.refs.email.value,
-        phone: this.refs.phone.value,
-        organization: this.refs.organization.value,
-        designation: this.refs.designation.value,
-        salary: this.refs.salary.value
-      });
+
+      const employee = await axios.put(`http://localhost:5000/proxy/api/v1/employees/${id}`, {
+        // const employee = await axios.put(`http://localhost:5001/api/v1/employees/${id}`, {
+        first_name: first_name.value,
+        last_name: last_name.value,
+        email: email.value,
+        phone: phone.value,
+        organization: organization.value,
+        designation: designation.value,
+        salary: salary.value
+      }, config);
       toast(employee.data.message ,{ type: toast.TYPE.INFO, autoClose: 3000 });
 
     } catch (err) {
@@ -50,22 +99,21 @@ class EditEmployee extends Component {
     }
   };
 
-  render() {
-    if (this.state.response === "Employee not found!")
+    if (response === "Employee not found!")
       return <h1>Employee not found!</h1>
     return (
       <div className="Edit-Employee-Wrapper">
         <h1>Edit page</h1>
-        <form onSubmit={this.updateEmployeeHandler}>
+        <form onSubmit={updateEmployeeHandler}>
           <label htmlFor="first_name">First Name:</label>
           <input
             type="text"
             autocomplete="off"
             placeholder="firstName..."
-            value={ this.state.first_name }
+            value={ first_name }
             name="first_name"
-            onChange={this.onChangeHandler}
-            ref="first_name"
+            onChange={onFirstNameChange}
+            // ref="first_name"
             required
             className="Edit-Employee-Input"
             id="first_name"
@@ -75,10 +123,10 @@ class EditEmployee extends Component {
             type="text"
             autocomplete="off"
             placeholder="last_name..."
-            value={ this.state.last_name }
+            value={ last_name }
             name="last_name"
-            onChange={this.onChangeHandler}
-            ref="last_name"
+            onChange={onLastNameChange}
+            // ref="last_name"
             required
             className="Edit-Employee-Input"
             id="last_name"
@@ -88,10 +136,10 @@ class EditEmployee extends Component {
             type="text"
             autocomplete="off"
             placeholder="enter your email here"
-            value={ this.state.email }
+            value={ email }
             name="email"
-            onChange={this.onChangeHandler}
-            ref="email"
+            onChange={onEmailChange}
+            // ref="email"
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
             className="Add-Employee-Input"
             required
@@ -102,9 +150,9 @@ class EditEmployee extends Component {
             type="text"
             autocomplete="off"
             name="phone"
-            value={ this.state.phone }
-            onChange={this.onChangeHandler}
-            ref="phone"
+            value={ phone }
+            onChange={onPhoneChange}
+            // ref="phone"
             className="Add-Employee-Input"
             required
             id="phone"
@@ -114,9 +162,9 @@ class EditEmployee extends Component {
             type="text"
             autocomplete="off"
             name="organization"
-            value={ this.state.organization }
-            onChange={this.onChangeHandler}
-            ref="organization"
+            value={ organization }
+            onChange={onOrganizationChange}
+            // ref="organization"
             className="Add-Employee-Input"
             required
             id="organization"
@@ -126,9 +174,9 @@ class EditEmployee extends Component {
             type="text"
             autocomplete="off"
             name="designation"
-            value={ this.state.designation }
-            onChange={this.onChangeHandler}
-            ref="designation"
+            value={ designation }
+            onChange={onDesignationChange}
+            // ref="designation"
             className="Add-Employee-Input"
             required
             id="organization"
@@ -138,9 +186,9 @@ class EditEmployee extends Component {
             type="text"
             autocomplete="off"
             name="salary"
-            value={ this.state.salary }
-            onChange={this.onChangeHandler}
-            ref="salary"
+            value={ salary }
+            onChange={onSalaryChange}
+            // ref="salary"
             className="Add-Employee-Input"
             required
             id="salary"
@@ -152,6 +200,5 @@ class EditEmployee extends Component {
       </div>
     );
   }
-}
 
 export default withRouter(EditEmployee);

@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const employeeController =   require('../controllers/employee.controller');
+// const keycloak = require('../../config/keycloak.config.js').getKeycloak();
+const authenticate = require("./authenticate.js");
 
 // get call
 // get posts endpoint
@@ -25,7 +27,7 @@ const employeeController =   require('../controllers/employee.controller');
  *            type: "array"
  *            items:
  */
-router.get('/', employeeController.findAll);
+router.get('/', authenticate, employeeController.findAll);
 
 
 // Create
@@ -83,7 +85,7 @@ router.get('/', employeeController.findAll);
      *      500:
      *        description: Server Error
      */
-router.post('/', employeeController.create);
+router.post('/', authenticate,  employeeController.create);
 // get with id
   /**
      * @swagger
@@ -96,7 +98,7 @@ router.post('/', employeeController.create);
      *      - name: employeeId
      *        in: path
      *        schema:
-     *          type: integer
+     *          type: string
      *        description: The data of the employee
      *        required: true
      *     responses:
@@ -109,7 +111,7 @@ router.post('/', employeeController.create);
      *      500:
      *        description: Server Error
      */
-router.get('/:id', employeeController.findById);
+router.get('/:id', authenticate,  employeeController.findById);
 // update
 /**
      * @swagger
@@ -171,7 +173,7 @@ router.get('/:id', employeeController.findById);
      *      500:
      *        description: Server Error
      */
-router.put('/:id', employeeController.update);
+router.put('/:id', authenticate,  employeeController.update);
 //Search
   /**
      * @swagger
@@ -197,7 +199,7 @@ router.put('/:id', employeeController.update);
      *      500:
      *        description: Server Error
      */
-  router.get('/search/:key', employeeController.search);
+  router.get('/search/:key', authenticate,  employeeController.search);
 // delete
  /**
      * @swagger
@@ -221,5 +223,5 @@ router.put('/:id', employeeController.update);
      *      500:
      *        description: Server Error
      */
-router.delete('/:id', employeeController.delete);
+router.delete('/:id', authenticate,  employeeController.delete);
 module.exports = router
