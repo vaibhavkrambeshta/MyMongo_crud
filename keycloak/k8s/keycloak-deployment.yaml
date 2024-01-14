@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-development
+  labels:
+    name: keycloak-development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: keycloak-development
+  template:
+    metadata:
+      labels:
+        name: keycloak-development
+    spec:
+      containers:
+      - name: keycloak-development-con
+        image: quay.io/keycloak/keycloak:23.0.4
+        imagePullPolicy: Always
+        env: 
+              - 
+                name: KEYCLOAK_USER
+                value: admin
+                
+              -
+                name: KEYCLOAK_PASSWORD
+                value: admin
+                
+              -
+                name: PROXY_ADDRESS_FORWARDING
+                value: true
+              -
+                name: KEYCLOAK_FRONTEND_URL
+                value: http:localhost:8080/auth/
+                
+              -
+                name: KEYCLOAK_ADMIN_URL
+                value: https://Mkeycloak-  development/auth/realms/master/admin/
+        ports:
+        - containerPort: 8080

@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: mynode-client-con
-        image: vforvalient/my-mongo-crud-client
+        image: vforvalient/my-mongo-crud-client:0.0.18.RELEASE
         ports:
         - containerPort: 3000
