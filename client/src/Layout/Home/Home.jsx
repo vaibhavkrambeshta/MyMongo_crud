@@ -61,7 +61,7 @@ const  Home =  () => {
       // const employeeRemoved = await axios.delete(`http://localhost:5001/api/v1/employees/${id}`, config);
       const employees = await axios("http://localhost:5000/api/v1/employees", config);
       // const employees = await axios("http://localhost:5001/api/v1/employees", config);
-      setData(employees);
+      setData(employees.data);
     } catch (err) {
       setError(err.message);
     }

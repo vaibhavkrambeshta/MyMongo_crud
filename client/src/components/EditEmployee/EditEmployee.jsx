@@ -84,13 +84,13 @@ const EditEmployee = (props) => {
 
       const employee = await axios.put(`http://localhost:5000/api/v1/employees/${id}`, {
         // const employee = await axios.put(`http://localhost:5001/api/v1/employees/${id}`, {
-        first_name: first_name.value,
-        last_name: last_name.value,
-        email: email.value,
-        phone: phone.value,
-        organization: organization.value,
-        designation: designation.value,
-        salary: salary.value
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        phone: phone,
+        organization: organization,
+        designation: designation,
+        salary: salary
       }, config);
       toast(employee.data.message ,{ type: toast.TYPE.INFO, autoClose: 3000 });
 
