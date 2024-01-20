@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 // Allow Promises
 mongoose.Promise = global.Promise;
 // Connection
-mongoose.connect('mongodb://51.20.41.138:27017/employee-db');
+mongoose.connect('mongodb://127.0.0.1:27017/employee-db');
 // mongoose.connect(process.env.MONGO_URL);
 // mongoose.connect('mongodb://mongodb-cluster-ip-serv/employee-db');
 // Validation
