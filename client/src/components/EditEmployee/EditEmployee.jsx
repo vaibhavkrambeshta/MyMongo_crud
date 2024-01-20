@@ -55,7 +55,7 @@ const EditEmployee = (props) => {
         console.log("search =", search);
         const id = search.substring(1, search.length);
           
-        const updateEmployee = await axios(`http://localhost:5000/api/v1/employees/${id}`, config);
+        const updateEmployee = await axios(`http://51.20.41.138:5000/api/v1/employees/${id}`, config);
         // const updateEmployee = await axios(`http://localhost:5001/api/v1/employees/${id}`, config);
         const { _id, first_name, last_name, email, phone, organization, designation, salary } = updateEmployee.data.employee;
         setFirstName(first_name);
@@ -82,7 +82,7 @@ const EditEmployee = (props) => {
     e.preventDefault();
     try {
 
-      const employee = await axios.put(`http://localhost:5000/api/v1/employees/${id}`, {
+      const employee = await axios.put(`http://51.20.41.138:5000//api/v1/employees/${id}`, {
         // const employee = await axios.put(`http://localhost:5001/api/v1/employees/${id}`, {
         first_name: first_name,
         last_name: last_name,

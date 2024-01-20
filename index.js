@@ -28,7 +28,7 @@ app.use(actuator(actuatorConfig));
 //allow cors
 
 app.use(cors({
-  origin: "http://localhost:3000"
+  origin: "http://51.20.41.138:3000"
 }))
 //swagger options
 const swaggerOptions = {
