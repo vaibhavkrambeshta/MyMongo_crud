@@ -12,15 +12,7 @@ exports.findAll = async(req, res) => {
 };
 exports.create = async(req, res) => {
   try {
-    if(req.user === process.env.USER){
-      res 
-      .status(403) 
-      .send( 
-        `<h1 style='color:green;text-align:center;'>500<h1/><br />
-          <pre style='text-align:center;'> 
-              Forbidden!<pre/>`
-      ); 
-    }else{
+
       const newEmployee = await Employee.create({ 
         first_name: req.body.first_name,
         last_name: req.body.last_name,
@@ -31,7 +23,6 @@ exports.create = async(req, res) => {
         salary: req.body.salary
        });
        res.send({ newEmployee });
-    }
   } catch(err) {
     res.status(400).send({ error: err });
   }
@@ -47,37 +38,17 @@ exports.findById = async(req, res) => {
 };
 exports.update = async(req, res) => {
   try {
-    if(req.user === process.env.USER){
-      res 
-      .status(403) 
-      .send( 
-        `<h1 style='color:green;text-align:center;'>500<h1/><br />
-          <pre style='text-align:center;'> 
-              Forbidden!<pre/>`
-      ); 
-    }else {
     const updatedEmployee = await Employee.findByIdAndUpdate(req.params.id, req.body);
      res.send({ message: 'The employee was updated' });
-    }
   } catch(err) {
     res.status(400).send({ error: err });
   }
 };
 exports.delete = async(req, res) => {
   try {
-    if(req.user === process.env.USER){
-      res 
-      .status(403) 
-      .send( 
-        `<h1 style='color:green;text-align:center;'>500<h1/><br />
-          <pre style='text-align:center;'> 
-              Forbidden!<pre/>`
-      ); 
-    } else{
     console.log("id ===", req.params.id)
     const removeStudent = await Employee.deleteOne({_id: req.params.id});
      res.send({ message: 'The student was removed' });
-    }
   } catch(err) {
     console.log("err ===", err)
     res.status(400).send({ error: err });
