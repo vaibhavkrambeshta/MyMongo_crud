@@ -82,7 +82,7 @@ const EditEmployee = (props) => {
     e.preventDefault();
     try {
 
-      const employee = await axios.put(`http://13.60.20.87:5000//api/v1/employees/${id}`, {
+      const employee = await axios.put(`http://13.60.20.87:5000/api/v1/employees/${id}`, {
         // const employee = await axios.put(`http://localhost:5001/api/v1/employees/${id}`, {
         first_name: first_name,
         last_name: last_name,

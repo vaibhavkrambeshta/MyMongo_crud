@@ -40,7 +40,7 @@ const  Home =  () => {
       },
     };
     try {
-      const employees = await axios("http://13.60.20.87:5000//api/v1/employees", config);
+      const employees = await axios("http://13.60.20.87:5000/api/v1/employees", config);
       // const employees = await axios("http://localhost:5001/api/v1/employees", config);
       console.log("employees===", employees)
       setData(employees.data)

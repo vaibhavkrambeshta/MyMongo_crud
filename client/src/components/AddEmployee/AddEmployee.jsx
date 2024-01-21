@@ -58,7 +58,7 @@ const AddEmployee =  () => {
       },
     };
     try {
-      const newEmployee = await axios.post("http://13.60.20.87:5000//api/v1/employees", {
+      const newEmployee = await axios.post("http://13.60.20.87:5000/api/v1/employees", {
         // const newEmployee = await axios.post("http://localhost:5001/api/v1/employees", {
           first_name: first_name,
           last_name: last_name,
