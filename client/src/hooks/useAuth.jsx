@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Keycloak from "keycloak-js";
 
 const client = new Keycloak({
-  url: 'http://localhost:8080',
+  url: 'http://13.60.20.87:8080',
   realm: "myrealm",
   clientId: "myclient",
 });
