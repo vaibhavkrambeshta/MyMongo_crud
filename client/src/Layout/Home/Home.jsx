@@ -40,7 +40,7 @@ const  Home =  () => {
       },
     };
     try {
-      const employees = await axios("http://51.20.41.138:5000//api/v1/employees", config);
+      const employees = await axios("http://13.60.20.87:5000//api/v1/employees", config);
       // const employees = await axios("http://localhost:5001/api/v1/employees", config);
       console.log("employees===", employees)
       setData(employees.data)
@@ -57,9 +57,9 @@ const  Home =  () => {
       },
     };
     try {
-      const employeeRemoved = await axios.delete(`http://51.20.41.138:5000/api/v1/employees/${id}`, config);
+      const employeeRemoved = await axios.delete(`http://13.60.20.87:5000/api/v1/employees/${id}`, config);
       // const employeeRemoved = await axios.delete(`http://localhost:5001/api/v1/employees/${id}`, config);
-      const employees = await axios("http://51.20.41.138:5000/api/v1/employees", config);
+      const employees = await axios("http://13.60.20.87:5000/api/v1/employees", config);
       // const employees = await axios("http://localhost:5001/api/v1/employees", config);
       setData(employees.data);
     } catch (err) {
@@ -74,7 +74,7 @@ const  Home =  () => {
       },
     };
     try {
-        const searchEmployees = await axios(`http://51.20.41.138:5000/api/v1/employees/search/${key}`, config);
+        const searchEmployees = await axios(`http://13.60.20.87:5000/api/v1/employees/search/${key}`, config);
         // const searchEmployees = await axios(`http://localhost:5001/api/v1/employees/search/${key}`, config);
         // const employees = await axios("/api/v1/employees");
         setData(searchEmployees.data);

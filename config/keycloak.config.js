@@ -6,7 +6,7 @@ let _keycloak;
 var keycloakConfig = {
     clientId: 'mern_crud_app_1',
     bearerOnly: true,
-    serverUrl: 'http://localhost:8080/auth',
+    serverUrl: 'http://13.60.20.87:8080/auth',
     realm: 'Demo-Realm',
     credentials: {
         secret: 'd56AejXPXK19nkEjFrXu5AGh88n9PaxW'

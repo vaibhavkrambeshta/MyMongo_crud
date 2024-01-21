@@ -28,7 +28,7 @@ app.use(actuator(actuatorConfig));
 //allow cors
 
 app.use(cors({
-  origin: "http://51.20.41.138:3000"
+  origin: "http://13.60.20.87:3000"
 }))
 //swagger options
 const swaggerOptions = {
@@ -41,7 +41,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `http://51.20.41.138:${port}/api/v1/employees`,
+        url: `http://13.60.20.87:${port}/api/v1/employees`,
       }
     ],
   },

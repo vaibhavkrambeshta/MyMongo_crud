@@ -32,7 +32,7 @@ spec:
                 value: true
               -
                 name: KEYCLOAK_FRONTEND_URL
-                value: http://51.20.41.138:8080/auth/
+                value: http://13.60.20.87:8080/auth/
                 
               -
                 name: KEYCLOAK_ADMIN_URL
